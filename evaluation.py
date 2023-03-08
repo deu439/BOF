@@ -1,16 +1,16 @@
-#   Copyright [2021] [Jan Dorazil]
-#  #
-#   Licensed under the Apache License, Version 2.0 (the "License");
-#   you may not use this file except in compliance with the License.
-#   You may obtain a copy of the License at
-#  #
-#       http://www.apache.org/licenses/LICENSE-2.0
-#  #
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
+#  Copyright [2023] [Jan Dorazil]
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
 
 import numpy as np
 import multiprocessing
@@ -21,8 +21,8 @@ from contrib.aux import sp_plot
 from contrib import vb, parameter_sets
 
 # Some user defined params ====
-bmode_path = "/home/deu/STRAUS/%s/%s/frame%d.mat"
-flow_path = "/home/deu/STRAUS/%s/%s/flow%d.mat"
+bmode_path = "./STRAUS/%s/%s/frame%d.mat"
+flow_path = "./STRAUS/%s/%s/flow%d.mat"
 n_frames = 34
 scan = 'long_axis'
 n_processes = 4
