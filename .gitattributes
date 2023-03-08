@@ -1,0 +1,2 @@
+STRAUS_2d_slices.zip filter=lfs diff=lfs merge=lfs -text
+STRAUS.zip filter=lfs diff=lfs merge=lfs -text
