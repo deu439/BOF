@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include <malloc.h>
 
 #include "image.h"
 #include "solver.h"
