@@ -23,7 +23,11 @@ static struct PyModuleDef Sor =
     "Sor", /* name of module */
     "usage: foobar\n", /* module documentation, may be NULL */
     -1,   /* size of per-interpreter state of the module, or -1 if the module keeps state in global variables. */
-    module_methods
+    module_methods,
+    NULL,
+    NULL,
+    NULL,
+    NULL
 };
 
 PyMODINIT_FUNC PyInit_Sor(void)
@@ -34,29 +38,31 @@ PyMODINIT_FUNC PyInit_Sor(void)
 
 void ImgFromArray(image_t *img, PyArrayObject *arr)
 {
-    img->width = arr->dimensions[1];
-    img->height = arr->dimensions[0];
-    img->stride = arr->strides[0] / sizeof(float);
+    img->width = PyArray_DIM(arr, 1); //arr->dimensions[1];
+    img->height = PyArray_DIM(arr, 0); //arr->dimensions[0];
+    img->stride = PyArray_STRIDE(arr, 0) / sizeof(float); //arr->strides[0] / sizeof(float);
     img->data = (float *)PyArray_DATA(arr);
 }
 
 PyObject *solve(PyObject *self, PyObject *args)
 {
+    (void)self; // Suppress warning on unused parameter
+    
     // Parse input arguments
     PyObject *odu, *odv, *oa11, *oa12, *oa22, *ob1, *ob2, *ohoriz, *overt, *oiterations, *oomega;
     if (!PyArg_ParseTuple(args, "OOOOOOOOOOO", &odu, &odv, &oa11, &oa12, &oa22, &ob1, &ob2, &ohoriz, &overt, &oiterations, &oomega)){
         return NULL;
     }
 
-    PyArrayObject *adu = (PyArrayObject *) PyArray_ContiguousFromObject(odu, PyArray_FLOAT32, 2, 2);
-    PyArrayObject *adv = (PyArrayObject *) PyArray_ContiguousFromObject(odv, PyArray_FLOAT32, 2, 2);
-    PyArrayObject *aa11 = (PyArrayObject *) PyArray_ContiguousFromObject(oa11, PyArray_FLOAT32, 2, 2);
-    PyArrayObject *aa12 = (PyArrayObject *) PyArray_ContiguousFromObject(oa12, PyArray_FLOAT32, 2, 2);
-    PyArrayObject *aa22 = (PyArrayObject *) PyArray_ContiguousFromObject(oa22, PyArray_FLOAT32, 2, 2);
-    PyArrayObject *ab1 = (PyArrayObject *) PyArray_ContiguousFromObject(ob1, PyArray_FLOAT32, 2, 2);
-    PyArrayObject *ab2 = (PyArrayObject *) PyArray_ContiguousFromObject(ob2, PyArray_FLOAT32, 2, 2);
-    PyArrayObject *ahoriz = (PyArrayObject *) PyArray_ContiguousFromObject(ohoriz, PyArray_FLOAT32, 2, 2);
-    PyArrayObject *avert = (PyArrayObject *) PyArray_ContiguousFromObject(overt, PyArray_FLOAT32, 2, 2);
+    PyArrayObject *adu = (PyArrayObject *) PyArray_ContiguousFromObject(odu, NPY_FLOAT32, 2, 2);
+    PyArrayObject *adv = (PyArrayObject *) PyArray_ContiguousFromObject(odv, NPY_FLOAT32, 2, 2);
+    PyArrayObject *aa11 = (PyArrayObject *) PyArray_ContiguousFromObject(oa11, NPY_FLOAT32, 2, 2);
+    PyArrayObject *aa12 = (PyArrayObject *) PyArray_ContiguousFromObject(oa12, NPY_FLOAT32, 2, 2);
+    PyArrayObject *aa22 = (PyArrayObject *) PyArray_ContiguousFromObject(oa22, NPY_FLOAT32, 2, 2);
+    PyArrayObject *ab1 = (PyArrayObject *) PyArray_ContiguousFromObject(ob1, NPY_FLOAT32, 2, 2);
+    PyArrayObject *ab2 = (PyArrayObject *) PyArray_ContiguousFromObject(ob2, NPY_FLOAT32, 2, 2);
+    PyArrayObject *ahoriz = (PyArrayObject *) PyArray_ContiguousFromObject(ohoriz, NPY_FLOAT32, 2, 2);
+    PyArrayObject *avert = (PyArrayObject *) PyArray_ContiguousFromObject(overt, NPY_FLOAT32, 2, 2);
     if (adu == NULL || adv == NULL || aa11 == NULL || aa12 == NULL || aa22 == NULL || ab1 == NULL || ab2 == NULL || ahoriz == NULL || avert == NULL){
         return NULL;
     }
